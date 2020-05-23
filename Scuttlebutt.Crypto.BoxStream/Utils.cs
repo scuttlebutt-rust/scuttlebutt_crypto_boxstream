@@ -1,4 +1,4 @@
-// Copyright © 2020 Pedro Gómez Martín <zentauro@riseup.net>
+﻿// Copyright © 2020 Pedro Gómez Martín <zentauro@riseup.net>
 //
 // This file is part of the library Scuttlebutt.Crypto which
 // is free software: you can redistribute it and/or modify
@@ -14,15 +14,30 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+
 namespace Scuttlebutt.Crypto.BoxStream
 {
-    public abstract class BoxStream
+    internal static class Utils
     {
-        protected byte[] key;
-        protected byte[] nonce;
+        public static byte[] Concat(params byte[][] args)
+        {
+            var total_length = 0;
+            var next_offset = 0;
 
-        protected const int TAG_SIZE = 16;
-        protected const int LEN_SIZE = 2;
-        protected const int HEAD_LEN = 34;
+            foreach (var e in args)
+            {
+                total_length += e.Length;
+            }
+
+            var result = new byte[total_length];
+
+            for (int i = 0; i < args.Length; i++)
+            {
+                args[i].CopyTo(result, next_offset);
+                next_offset += args[i].Length;
+            }
+
+            return result;
+        }
     }
 }

@@ -21,6 +21,9 @@ using Sodium;
 
 namespace Scuttlebutt.Crypto.BoxStream
 {
+    /// <summary>
+    ///   This class sends messages to the destination
+    /// </summary>
     public class Boxer : BoxStream
     {
         public Boxer(byte[] key, byte[] nonce)
@@ -29,7 +32,7 @@ namespace Scuttlebutt.Crypto.BoxStream
             this.nonce = nonce;
         }
 
-        byte[] Box(byte[] msg)
+        public byte[] Box(byte[] msg)
         {
             if (msg.Length > 4096)
             {

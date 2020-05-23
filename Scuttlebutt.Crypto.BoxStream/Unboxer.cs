@@ -16,6 +16,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Sodium;
 
@@ -29,14 +30,21 @@ namespace Scuttlebutt.Crypto.BoxStream
             this.nonce = nonce;
         }
 
-        async Task<byte[]> Unbox(Stream msg)
+        public async Task<byte[]> Unbox(Stream msg)
         {
             var enc_header = new byte[HEAD_LEN];
             await msg.ReadAsync(enc_header, 0, HEAD_LEN);
 
             var header = SecretBox.Open(enc_header, nonce, key);
+            var length_buf = header.Take(2).ToArray();
+            var length = BitConverter.ToUInt16(length_buf, 0);
 
-            return header;
+            var boxed_body = new byte[length];
+            await msg.ReadAsync(boxed_body, 0, length);
+
+            var to_unbox = Utils.Concat(length_buf.Skip(2).ToArray(), boxed_body);
+
+            return SecretBox.Open(to_unbox, nonce, key);
         }
     }
 }
