@@ -2,7 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-     <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <Title>Scuttlebutt Box Stream</Title>
+    <Description>
+      An implementation of the box stream needed by scuttlebutt
+    </Description>
+
+    <Version>0.1.0</Version>
+    <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/radio-patio/scuttlebutt_crypto.git</RepositoryUrl>
+    <Copyright>Copyright © 2020 Pedro Gómez Martín &lt;zentauro@riseup.net&gt;</Copyright>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
