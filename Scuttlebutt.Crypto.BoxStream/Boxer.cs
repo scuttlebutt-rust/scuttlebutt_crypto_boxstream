@@ -47,13 +47,19 @@ namespace Scuttlebutt.Crypto.BoxStream
             var body = SecretBox.Create(msg, nonce, key);
             Buffer.BlockCopy(body, 0, tag, LEN_SIZE, TAG_SIZE);
 
-            // TODO: Manage endian-ness
-            var size = BitConverter.GetBytes(body.Length);
+            // Represent size as 16 bit unsigned integer
+            var size = BitConverter.GetBytes((UInt16)(int)msg.Length);
+            // Put the size in bigendian
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(size);
+
             Buffer.BlockCopy(size, 0, tag, 0, LEN_SIZE);
 
             var header = SecretBox.Create(tag, nonce, key);
-            Buffer.BlockCopy(box, 0, header, 0, HEAD_LEN);
-            Buffer.BlockCopy(box, HEAD_LEN, body, TAG_SIZE, msg.Length);
+
+            // Fill the box with the contents of the body and header
+            Buffer.BlockCopy(header, 0, box, 0, HEAD_LEN);
+            Buffer.BlockCopy(body, TAG_SIZE, box, HEAD_LEN, msg.Length);
 
             Utilities.Increment(nonce);
 

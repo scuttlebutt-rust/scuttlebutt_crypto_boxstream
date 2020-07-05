@@ -5,10 +5,11 @@ namespace Scuttlebutt.Crypto.BoxStream
 {
     static class TestCode
     {
-        void Test(byte[] derived_secret, byte[] foreign_pubkey, byte[] self_pubkey, byte[] network_key, byte[] a, byte[] b)
+        static async void Test(byte[] derived_secret, byte[] foreign_pubkey, byte[] self_pubkey, byte[] network_key, byte[] a, byte[] b)
         {
-            var inbound_conn = new Socket(SocketType.Dgram, ProtocolType.Udp);
-            var inbound_conn = new Socket(SocketType.Dgram, ProtocolType.Udp);
+            // Properly initialize a pair of connections
+            var inbound_conn = new Socket(SocketType.Dgram, ProtocolType.Tcp);
+            var outbound_conn = new Socket(SocketType.Dgram, ProtocolType.Tcp);
 
             var (sender, receiver) = BoxStreamBuilder.Build(
                 derived_secret,
@@ -22,6 +23,12 @@ namespace Scuttlebutt.Crypto.BoxStream
             var cleartext = new byte[32];
             var wiretext = sender.Box(cleartext);
 
+            outbound_conn.Send(wiretext);
+
+            var netstream = NetworkStream(inbound_conn, true);
+
+            var reply = await receiver.Unbox(netstream);
+            Console.WriteLine(reply);
         }
     }
 }

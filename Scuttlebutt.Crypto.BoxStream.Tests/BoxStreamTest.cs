@@ -70,13 +70,14 @@ namespace Scuttlebutt.Crypto.BoxStream.Tests
                 a, b
             );
 
-            var plain = System.Text.Encoding.Unicode.GetBytes( "hello world");
+            var plain = System.Text.Encoding.Unicode.GetBytes("hello world");
 
             var msg = client_boxer.Box(plain);
             
             using (var stream = StreamFromBytes(msg))
             {
                 var decoded = await server_unboxer.Unbox(stream);
+                Assert.Equal(plain, decoded);
             }
         }
     }

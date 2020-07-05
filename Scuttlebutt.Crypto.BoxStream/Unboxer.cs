@@ -37,12 +37,14 @@ namespace Scuttlebutt.Crypto.BoxStream
 
             var header = SecretBox.Open(enc_header, nonce, key);
             var length_buf = header.Take(2).ToArray();
+            if (BitConverter.IsLittleEndian)
+                Array.Reverse(length_buf);
             var length = BitConverter.ToUInt16(length_buf, 0);
 
             var boxed_body = new byte[length];
             await msg.ReadAsync(boxed_body, 0, length);
 
-            var to_unbox = Utils.Concat(length_buf.Skip(2).ToArray(), boxed_body);
+            var to_unbox = Utils.Concat(header.Skip(2).ToArray(), boxed_body);
 
             return SecretBox.Open(to_unbox, nonce, key);
         }

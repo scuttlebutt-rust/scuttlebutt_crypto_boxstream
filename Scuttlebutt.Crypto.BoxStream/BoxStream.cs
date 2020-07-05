@@ -23,6 +23,7 @@ namespace Scuttlebutt.Crypto.BoxStream
 
         protected const int TAG_SIZE = 16;
         protected const int LEN_SIZE = 2;
-        protected const int HEAD_LEN = 34;
+        protected const int HEAD_LEN = 2 + 16 + 16;
+        protected const int MAX_SIZE = 4 * 1024;
     }
 }
