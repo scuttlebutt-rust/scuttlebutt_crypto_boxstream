@@ -1,4 +1,4 @@
-﻿// Copyright © 2020 Pedro Gómez Martín <zentauro@riseup.net>
+// Copyright © 2020 Pedro Gómez Martín <zentauro@riseup.net>
 //
 // This file is part of the library Scuttlebutt.Crypto which
 // is free software: you can redistribute it and/or modify
@@ -19,8 +19,48 @@ using Sodium;
 
 namespace Scuttlebutt.Crypto.BoxStream
 {
+    /// <summary>
+    ///   Provides the utilities to generate boxer/unboxer pairs
+    /// </summary>
     public static class BoxStreamBuilder
     {
+        /// <summary>
+        ///   Given the keys obtained during the handshake generates a pair of
+        ///   Boxer/Unboxer.
+        /// </summary>
+        /// <remarks>
+        ///   <para>
+        ///     TODO: Write about the process detailed in the spec
+        ///   </para>
+        /// </remarks>
+        /// <param name="derived_secret">
+        ///   The secret derived from the client long term key and the server's
+        ///   ephemeral key (Ab).
+        /// </param>
+        /// <param name="foreing_pubkey">
+        ///   The public key that identifies the other peer, that is, the server
+        ///   public key if this is called from the client and vice versa.
+        /// </param>
+        /// <param name="self_pubkey">
+        ///   The public key that identifies the entity calling this.
+        /// </param>
+        /// <param name="network_key">
+        ///   The key that identifies the network, in the case of scuttlebutt is
+        ///   the one posted in the scuttlebutt protocol
+        ///   <see href="https://ssbc.github.io/scuttlebutt-protocol-guide/">
+        ///     guide
+        ///   </see>.
+        /// </param>
+        /// <param name="a">
+        ///   The client's ephemeral public key used during the handshake.
+        /// </param>
+        /// <param name="b">
+        ///   The server's ephemeral public key used during the handshake.
+        /// </param>
+        /// <returns>
+        ///   The Boxer/Unboxer pair that a client or server can use to
+        ///   communicate with the other.
+        /// </returns>
         public static (Boxer, Unboxer) Build(
             byte[] derived_secret,
             byte[] foreing_pubkey,

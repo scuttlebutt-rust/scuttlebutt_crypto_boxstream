@@ -26,12 +26,26 @@ namespace Scuttlebutt.Crypto.BoxStream
     /// </summary>
     public class Boxer : BoxStream
     {
+        /// <summary>
+        ///   Creates a boxer instance that automatically increments the nonce
+        ///   with every message sent
+        /// </summary>
+        /// <param name="key">The key derived from the shared secrets</param>
+        /// <param name="nonce">The nonce derived from the shared secrets</param>
         public Boxer(byte[] key, byte[] nonce)
         {
             this.key = key;
             this.nonce = nonce;
         }
 
+        /// <summary>
+        ///   Encrypts and boxes a given message
+        /// </summary>
+        /// <returns>An array with the message ready to be sent</returns>
+        /// <param name="msg">The message to be encrypted</param>
+        /// <exception cref="OverflowException">
+        ///   Thrown when the message excedes the 4096 bytes maximum capacity
+        /// </exception>
         public byte[] Box(byte[] msg)
         {
             if (msg.Length > 4096)

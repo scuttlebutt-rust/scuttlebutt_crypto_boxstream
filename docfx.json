@@ -4,7 +4,11 @@
       "src": [
         {
           "files": [
-            "ScuttlebuttCryptoBoxStream/*.csproj"
+            "Scuttlebutt.Crypto.BoxStream/Boxer.cs",
+            "Scuttlebutt.Crypto.BoxStream/BoxStreamBuilder.cs",
+            "Scuttlebutt.Crypto.BoxStream/BoxStream.cs",
+            "Scuttlebutt.Crypto.BoxStream/Unboxer.cs",
+            "Scuttlebutt.Crypto.BoxStream/Utils.cs"
           ]
         }
       ],

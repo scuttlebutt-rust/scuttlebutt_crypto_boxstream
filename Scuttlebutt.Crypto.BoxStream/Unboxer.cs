@@ -22,14 +22,28 @@ using Sodium;
 
 namespace Scuttlebutt.Crypto.BoxStream
 {
+    /// <summary>
+    ///   This reads messages form an incoming box stream
+    /// </summary>
     public class Unboxer : BoxStream
     {
+        /// <summary>
+        ///   Creates an unboxer instance that automatically increments the nonce
+        ///   with every message sent
+        /// </summary>
+        /// <param name="key">The key derived from the shared secrets</param>
+        /// <param name="nonce">The nonce derived from the shared secrets</param>
         public Unboxer(byte[] key, byte[] nonce)
         {
             this.key = key;
             this.nonce = nonce;
         }
 
+        /// <summary>
+        ///   Asynchronously reads a message from the stream.
+        /// </summary>
+        /// <returns>An array with the decrypted message</returns>
+        /// <param name="msg">A stream with incoming messages</param>
         public async Task<byte[]> Unbox(Stream msg)
         {
             var enc_header = new byte[HEAD_LEN];
