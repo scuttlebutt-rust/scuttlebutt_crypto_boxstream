@@ -9,9 +9,9 @@
       An implementation of the box stream needed by scuttlebutt
     </Description>
 
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/radio-patio/scuttlebutt_crypto.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/radio-patio/scuttlebutt_crypto_boxstream.git</RepositoryUrl>
     <Copyright>Copyright © 2020 Pedro Gómez Martín &lt;zentauro@riseup.net&gt;</Copyright>
     <IsPackable>true</IsPackable>
   </PropertyGroup>
